@@ -2,6 +2,7 @@ package org.hothyojas.mogayobackend.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.hothyojas.mogayobackend.dtos.BaseResponse;
+import org.hothyojas.mogayobackend.dtos.ChildDto;
 import org.hothyojas.mogayobackend.dtos.InviteCodeDto;
 import org.hothyojas.mogayobackend.dtos.TokenDto;
 import org.hothyojas.mogayobackend.entities.Child;
@@ -24,19 +25,19 @@ public class ChildrenController {
     private final ChildrenService childrenService;
 
     @GetMapping("/{childrenId}")
-    public BaseResponse<Child> getChild(@PathVariable int childrenId) {
-        return new BaseResponse<>(childrenService.getChild(childrenId));
+    public BaseResponse<ChildDto> getChild(@PathVariable int childrenId) {
+        return new BaseResponse<>(new ChildDto(childrenService.getChild(childrenId)));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public BaseResponse<Child> createChild(@RequestBody Child child) {
-        return new BaseResponse<>(childrenService.createChild(child));
+    public BaseResponse<ChildDto> createChild(@RequestBody Child child) {
+        return new BaseResponse<>(new ChildDto(childrenService.createChild(child)));
     }
 
     @PatchMapping("/{childrenId}")
-    public BaseResponse<Child> updateChildToken(@PathVariable int childrenId, @RequestBody TokenDto tokenDto) {
-        return new BaseResponse<>(childrenService.updateChildToken(childrenId, tokenDto));
+    public BaseResponse<ChildDto> updateChildToken(@PathVariable int childrenId, @RequestBody TokenDto tokenDto) {
+        return new BaseResponse<>(new ChildDto(childrenService.updateChildToken(childrenId, tokenDto)));
     }
 
     @PostMapping("/{childrenId}/parents")

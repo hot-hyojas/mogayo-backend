@@ -2,6 +2,8 @@ package org.hothyojas.mogayobackend.controllers;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.hothyojas.mogayobackend.dtos.BaseResponse;
 import org.hothyojas.mogayobackend.entities.Question;
 import org.hothyojas.mogayobackend.services.QuestionsService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("questions")
 @RestController
@@ -20,13 +23,13 @@ public class QuestionsController {
     private final QuestionsService questionsService;
 
     @GetMapping("")
-    public List<Question> getQuestions(@RequestParam int parentId) {
-        return null;
+    public BaseResponse<List<Question>> getQuestions(@RequestParam int parentId) {
+        return new BaseResponse<>(questionsService.getQuestionsByParentId(parentId));
     }
 
     @GetMapping("/{questionId}")
-    public Question getQuestion(@PathVariable int questionId) {
-        return null;
+    public BaseResponse<Question> getQuestion(@PathVariable int questionId) {
+        return new BaseResponse<>(questionsService.getQuestion(questionId));
     }
 
     @PostMapping("")
