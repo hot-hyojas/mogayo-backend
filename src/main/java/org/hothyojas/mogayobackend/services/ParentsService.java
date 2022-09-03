@@ -1,5 +1,6 @@
 package org.hothyojas.mogayobackend.services;
 
+import java.util.Locale;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.hothyojas.mogayobackend.dtos.TokenDto;
@@ -25,7 +26,7 @@ public class ParentsService {
 
     public Parent createParent(Parent parent) {
         String uuid = UUID.randomUUID().toString().replace("-", "");
-        parent.setInviteCode(uuid.substring(0, 6));
+        parent.setInviteCode(uuid.substring(0, 6).toUpperCase());
         return parentsRepository.save(parent);
     }
 }
