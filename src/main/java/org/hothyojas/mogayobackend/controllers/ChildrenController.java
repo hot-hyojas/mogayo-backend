@@ -1,7 +1,7 @@
 package org.hothyojas.mogayobackend.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.hothyojas.mogayobackend.config.common.BaseResponse;
+import org.hothyojas.mogayobackend.dtos.BaseResponse;
 import org.hothyojas.mogayobackend.dtos.InviteCodeDto;
 import org.hothyojas.mogayobackend.dtos.TokenDto;
 import org.hothyojas.mogayobackend.entities.Child;

@@ -1,4 +1,4 @@
-package org.hothyojas.mogayobackend.config.common;
+package org.hothyojas.mogayobackend.dtos;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

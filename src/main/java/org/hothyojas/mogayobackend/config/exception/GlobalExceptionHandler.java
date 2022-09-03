@@ -1,7 +1,7 @@
 package org.hothyojas.mogayobackend.config.exception;
 
 import java.util.NoSuchElementException;
-import org.hothyojas.mogayobackend.config.common.BaseResponse;
+import org.hothyojas.mogayobackend.dtos.BaseResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
