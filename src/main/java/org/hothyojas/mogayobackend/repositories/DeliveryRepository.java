@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface DeliveryRepository extends CustomDeliveryRepository, JpaRepository<Delivery, Integer> {
 
-    @Query("select count(d.id) from Delivery d where d.question.id = :questionId and d.isResponded = true and d.answer is not null")
+    @Query("select count(d.id) from Delivery d where d.question.id = :questionId")
     int getDeliveryCountByQuestionId(@Param("questionId") int questionId);
 }
