@@ -47,6 +47,6 @@ public class Child {
     private boolean available;
 
     @OneToOne
-    @JoinColumn(name = "parent_id")
+    @JoinColumn
     private Parent parent;
 }
