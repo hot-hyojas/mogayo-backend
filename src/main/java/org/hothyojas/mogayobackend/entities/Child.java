@@ -46,7 +46,7 @@ public class Child {
     private float heartTemperature = 36.5f;
 
     @Column
-    private boolean available;
+    private boolean available = true;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn
