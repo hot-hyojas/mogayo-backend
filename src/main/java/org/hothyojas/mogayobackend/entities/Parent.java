@@ -23,6 +23,9 @@ public class Parent {
     private Integer id;
 
     @Column(unique = true)
+    private String token;
+
+    @Column(unique = true)
     private String username;
 
     @JsonIgnore

@@ -3,10 +3,12 @@ package org.hothyojas.mogayobackend.controllers;
 import lombok.RequiredArgsConstructor;
 import org.hothyojas.mogayobackend.config.common.BaseResponse;
 import org.hothyojas.mogayobackend.dtos.InviteCodeDto;
+import org.hothyojas.mogayobackend.dtos.TokenDto;
 import org.hothyojas.mogayobackend.entities.Child;
 import org.hothyojas.mogayobackend.services.ChildrenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +31,12 @@ public class ChildrenController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public BaseResponse<Child> createChild(@RequestBody Child child) {
-        return new BaseResponse<Child>(childrenService.createChild(child));
+        return new BaseResponse<>(childrenService.createChild(child));
+    }
+
+    @PatchMapping("/{childrenId}")
+    public BaseResponse<Child> updateChildToken(@PathVariable int childrenId, @RequestBody TokenDto tokenDto) {
+        return new BaseResponse<>(childrenService.updateChildToken(childrenId, tokenDto));
     }
 
     @PostMapping("/{childrenId}/parents")
