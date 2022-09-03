@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,13 +23,13 @@ public class Child {
     @Column
     private Integer id;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
     @Column
     private String password;
 
-    @Column
+    @Column(unique = true)
     private String nickname;
 
     @Column
@@ -35,4 +37,8 @@ public class Child {
 
     @Column
     private boolean available;
+
+    @OneToOne
+    @JoinColumn(name = "parent_id")
+    private Parent parent;
 }
