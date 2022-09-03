@@ -25,13 +25,11 @@ public class FirebaseCloudMessageService {
 
     public void sendMessageTo(
         String targetToken,
-        String title,
-        String body,
         FcmMessageRequestDto requestDto
     ) {
         Message message = null;
         try {
-            message = makeMessage(targetToken, title, body, requestDto);
+            message = makeMessage(targetToken, requestDto);
             if (message == null) {
                 throw new NullPointerException();
             }
@@ -46,8 +44,6 @@ public class FirebaseCloudMessageService {
 
     private Message makeMessage(
         String targetToken,
-        String title,
-        String body,
         FcmMessageRequestDto requestDto
     ) {
 
@@ -56,23 +52,23 @@ public class FirebaseCloudMessageService {
 
         if (viewName == "getQuestionById") {
             message = Message.builder()
-                .putData("title", title)
-                .putData("body", body)
+                .putData("title", requestDto.getTitle())
+                .putData("body", requestDto.getBody())
                 .putData("questionId", String.valueOf(requestDto.getQuestionId().get()))
                 .setToken(targetToken)
                 .build();
         } else if (viewName == "createAnswerByQuestionId") {
             message = Message.builder()
-                .putData("title", title)
-                .putData("body", body)
+                .putData("title", requestDto.getTitle())
+                .putData("body", requestDto.getBody())
                 .putData("questionId", String.valueOf(requestDto.getQuestionId().get()))
                 .putData("childId", String.valueOf(requestDto.getChildId().get()))
                 .setToken(targetToken)
                 .build();
         } else if (viewName == "getMyPage") {
             message = Message.builder()
-                .putData("title", title)
-                .putData("body", body)
+                .putData("title", requestDto.getTitle())
+                .putData("body", requestDto.getBody())
                 .putData("childId", String.valueOf(requestDto.getChildId().get()))
                 .setToken(targetToken)
                 .build();
