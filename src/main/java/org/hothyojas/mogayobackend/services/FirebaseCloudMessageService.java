@@ -69,7 +69,7 @@ public class FirebaseCloudMessageService {
                 .putData("childId", String.valueOf(requestDto.getChildId().get()))
                 .setToken(targetToken)
                 .build();
-        } else if (viewName == "connectByRandomCode") {
+        } else if (viewName == "getMyPage") {
             message = Message.builder()
                 .putData("title", title)
                 .putData("body", body)
