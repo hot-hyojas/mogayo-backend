@@ -15,13 +15,3 @@ spring:
       enabled: true
       max-file-size: 10MB       # TODO: ?? ??
       max-request-size: 215MB   # TODO: ?? ??
-  datasource:
-    url: jdbc:h2:mem:local
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  jpa:
-    properties:
-      hibernate:
-        format_sql: true
-    show-sql: true

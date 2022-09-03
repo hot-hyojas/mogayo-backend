@@ -1,18 +1,4 @@
-server:
-  port: 8080
-  error:
-    include-exception: true
-    include-binding-errors: always
-    include-message: always
-    whitelabel:
-      enabled: false
-
 spring:
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 10MB       # TODO: 수정 바람
-      max-request-size: 215MB   # TODO: 수정 바람
   datasource:
     url: jdbc:mariadb://~~~
     driver-class-name: org.mariadb.jdbc.Driver
@@ -22,5 +8,4 @@ spring:
     properties:
       hibernate:
         ddl-auto: none
-        show-sql: false
     show-sql: false
