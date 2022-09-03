@@ -21,16 +21,16 @@ public class Parent {
     @Column
     private Integer id;
 
-    @Column
+    @Column(unique = true)
     private String username;
 
     @Column
     private String password;
 
-    @Column
+    @Column(unique = true)
     private String nickname;
 
-    @Column
+    @Column(unique = true)
     private String inviteCode;
 
     @Column

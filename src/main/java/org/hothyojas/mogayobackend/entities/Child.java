@@ -33,7 +33,7 @@ public class Child {
     private String nickname;
 
     @Column
-    private float heartTemperature;
+    private float heartTemperature = 36.5f;
 
     @Column
     private boolean available;
