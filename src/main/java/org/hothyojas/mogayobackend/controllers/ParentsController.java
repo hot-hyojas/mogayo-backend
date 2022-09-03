@@ -5,10 +5,12 @@ import org.hothyojas.mogayobackend.entities.Parent;
 import org.hothyojas.mogayobackend.services.ParentsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController("parents")
+@RequestMapping("parents")
+@RestController
 public class ParentsController {
 
     private final ParentsService parentsService;
