@@ -12,6 +12,7 @@ public class QuestionMetaDto {
     private String photo;
     private LocalDateTime createdAt;
     private ParentMetaDto parent;
+    private int deliveryCount;
 
     public QuestionMetaDto(Question question) {
         this.id = question.getId();
@@ -19,5 +20,6 @@ public class QuestionMetaDto {
         this.photo = question.getPhoto();
         this.createdAt = question.getCreatedAt();
         this.parent = new ParentMetaDto(question.getParent());
+        this.deliveryCount = question.getDeliveryCount();
     }
 }
