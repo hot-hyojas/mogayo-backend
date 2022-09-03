@@ -1,6 +1,7 @@
 package org.hothyojas.mogayobackend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +13,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
+@DynamicUpdate
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,7 +33,7 @@ public class Child {
     @Column(unique = true)
     private String username;
 
-    @JsonIgnore
+    @JsonProperty(access = Access.WRITE_ONLY)
     @Column
     private String password;
 
@@ -44,6 +47,6 @@ public class Child {
     private boolean available;
 
     @OneToOne
-    @JoinColumn(name = "parent_id")
+    @JoinColumn
     private Parent parent;
 }
