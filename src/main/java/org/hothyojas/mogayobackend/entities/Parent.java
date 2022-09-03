@@ -1,5 +1,6 @@
 package org.hothyojas.mogayobackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ public class Parent {
     @Column(unique = true)
     private String username;
 
+    @JsonIgnore
     @Column
     private String password;
 

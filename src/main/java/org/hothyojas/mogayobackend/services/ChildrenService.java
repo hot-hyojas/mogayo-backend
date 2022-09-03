@@ -5,7 +5,7 @@ import org.hothyojas.mogayobackend.dtos.InviteCodeDto;
 import org.hothyojas.mogayobackend.entities.Child;
 import org.hothyojas.mogayobackend.entities.Parent;
 import org.hothyojas.mogayobackend.repositories.ChildrenRepository;
-import org.hothyojas.mogayobackend.repositories.ParentRepository;
+import org.hothyojas.mogayobackend.repositories.ParentsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChildrenService {
 
     private final ChildrenRepository childrenRepository;
-    private final ParentRepository parentRepository;
+    private final ParentsRepository parentsRepository;
 
     public Child getChild(int childrenId) {
         return childrenRepository.findById(childrenId).orElseThrow();
@@ -23,7 +23,7 @@ public class ChildrenService {
     @Transactional
     public void linkChildAndParent(int childrenId, InviteCodeDto inviteCodeDto) {
         Child child = childrenRepository.findById(childrenId).orElseThrow();
-        Parent parent = parentRepository.findParentByInviteCode(inviteCodeDto.getInviteCode()).orElseThrow();
+        Parent parent = parentsRepository.findParentByInviteCode(inviteCodeDto.getInviteCode()).orElseThrow();
         child.setParent(parent);
     }
 
