@@ -1,9 +1,12 @@
 package org.hothyojas.mogayobackend.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hothyojas.mogayobackend.dtos.BaseResponse;
+import org.hothyojas.mogayobackend.dtos.QuestionDto;
+import org.hothyojas.mogayobackend.dtos.QuestionMetaDto;
 import org.hothyojas.mogayobackend.entities.Question;
 import org.hothyojas.mogayobackend.services.QuestionsService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,13 +26,15 @@ public class QuestionsController {
     private final QuestionsService questionsService;
 
     @GetMapping("")
-    public BaseResponse<List<Question>> getQuestions(@RequestParam int parentId) {
-        return new BaseResponse<>(questionsService.getQuestionsByParentId(parentId));
+    public BaseResponse<List<QuestionMetaDto>> getQuestions(@RequestParam int parentId) {
+        return new BaseResponse<>(questionsService.getQuestionsByParentId(parentId).stream().map(
+            QuestionMetaDto::new).collect(
+            Collectors.toList()));
     }
 
     @GetMapping("/{questionId}")
-    public BaseResponse<Question> getQuestion(@PathVariable int questionId) {
-        return new BaseResponse<>(questionsService.getQuestion(questionId));
+    public BaseResponse<QuestionDto> getQuestion(@PathVariable int questionId) {
+        return new BaseResponse<>(new QuestionDto(questionsService.getQuestion(questionId)));
     }
 
     @PostMapping("")

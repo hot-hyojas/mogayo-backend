@@ -61,7 +61,7 @@ public class SchedulerService {
                 .filter(Objects::nonNull)
                 .collect(
                     Collectors.toList());
-            log.info("send all page FCMs");
+
         }
     }
 
