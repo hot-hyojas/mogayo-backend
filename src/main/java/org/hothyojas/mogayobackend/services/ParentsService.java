@@ -1,6 +1,5 @@
 package org.hothyojas.mogayobackend.services;
 
-import java.util.Locale;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.hothyojas.mogayobackend.dtos.TokenDto;
