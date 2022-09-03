@@ -52,6 +52,7 @@ public class FirebaseCloudMessageService {
 
         if (viewName == "getQuestionById") {
             message = Message.builder()
+                .putData("viewName", viewName)
                 .putData("title", requestDto.getTitle())
                 .putData("body", requestDto.getBody())
                 .putData("questionId", String.valueOf(requestDto.getQuestionId().get()))
@@ -59,6 +60,7 @@ public class FirebaseCloudMessageService {
                 .build();
         } else if (viewName == "createAnswerByQuestionId") {
             message = Message.builder()
+                .putData("viewName", viewName)
                 .putData("title", requestDto.getTitle())
                 .putData("body", requestDto.getBody())
                 .putData("questionId", String.valueOf(requestDto.getQuestionId().get()))
@@ -67,6 +69,7 @@ public class FirebaseCloudMessageService {
                 .build();
         } else if (viewName == "getMyPage") {
             message = Message.builder()
+                .putData("viewName", viewName)
                 .putData("title", requestDto.getTitle())
                 .putData("body", requestDto.getBody())
                 .putData("childId", String.valueOf(requestDto.getChildId().get()))
