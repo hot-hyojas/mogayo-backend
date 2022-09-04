@@ -14,8 +14,13 @@ public class SchedulerController {
 
     private final SchedulerService schedulerService;
 
-    @GetMapping("/{intervalSeconds}")
-    public void triggerScheduler(@PathVariable int intervalSeconds) {
+    @GetMapping("response-check/{intervalSeconds}")
+    public void triggerResponseCheck(@PathVariable int intervalSeconds) {
         schedulerService.checkNoResponseChildren(intervalSeconds);
+    }
+
+    @GetMapping("delivery-check")
+    public void triggerDeliveryCheck() {
+        schedulerService.checkDelivery();
     }
 }

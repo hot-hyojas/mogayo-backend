@@ -8,11 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.hothyojas.mogayobackend.dtos.BaseResponse;
 import org.hothyojas.mogayobackend.dtos.QuestionDto;
 import org.hothyojas.mogayobackend.dtos.QuestionMetaDto;
+import org.hothyojas.mogayobackend.dtos.QuestionRequestDto;
 import org.hothyojas.mogayobackend.entities.Question;
 import org.hothyojas.mogayobackend.services.ParentsService;
 import org.hothyojas.mogayobackend.services.QuestionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,14 +48,12 @@ public class QuestionsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public BaseResponse<Question> createQuestion(
+    public BaseResponse<QuestionMetaDto> createQuestion(
         @RequestParam int parentId,
-        @RequestBody Question question
+        @ModelAttribute QuestionRequestDto questionRequestDto
     ) {
-        Question questionObject = questionsService.createQuestion(question, parentId);
-        //        questionObject.getId()
-
-        return new BaseResponse<>(questionObject);
+        Question question = questionsService.createQuestion(questionRequestDto, parentId);
+        return new BaseResponse<>(new QuestionMetaDto(question));
     }
 
     @PatchMapping("/{questionId}/answers")

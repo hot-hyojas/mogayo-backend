@@ -44,6 +44,9 @@ public class Question {
     @CreatedDate
     private LocalDateTime createdAt;
 
+    @Column
+    private boolean isDelivered = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Parent parent;
@@ -53,4 +56,9 @@ public class Question {
 
     @Transient
     int deliveryCount;
+
+    public Question(String content, Parent parent) {
+        this.content = content;
+        this.parent = parent;
+    }
 }

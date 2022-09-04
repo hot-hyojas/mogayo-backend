@@ -77,4 +77,9 @@ public class SchedulerService {
         // isResponded=true로 변경
         delivery.setResponded(true);
     }
+
+    @Scheduled(cron = "0 0/5 * * * *")
+    public void checkDelivery() {
+        // TODO:
+    }
 }
