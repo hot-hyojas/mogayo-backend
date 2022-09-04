@@ -1,6 +1,5 @@
 package org.hothyojas.mogayobackend.controllers;
 
-import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,8 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class QuestionsController {
 
     private final QuestionsService questionsService;
-
-    private final ParentsService parentsService;
 
     @GetMapping("")
     public BaseResponse<List<QuestionMetaDto>> getQuestions(@RequestParam int parentId) {

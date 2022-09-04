@@ -8,8 +8,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hothyojas.mogayobackend.entities.Child;
 import org.hothyojas.mogayobackend.entities.Delivery;
+import org.hothyojas.mogayobackend.entities.Question;
 import org.hothyojas.mogayobackend.repositories.ChildrenRepository;
 import org.hothyojas.mogayobackend.repositories.DeliveryRepository;
+import org.hothyojas.mogayobackend.repositories.QuestionsRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -22,9 +24,11 @@ public class SchedulerService {
 
     private static final int INTERVAL_SECONDS = 3600; // 1시간
     private static final int FETCH_SIZE = 100;
+    private static final int SEND_SIZE = 5;
 
     private final DeliveryRepository deliveryRepository;
     private final ChildrenRepository childrenRepository;
+    private final QuestionsRepository questionsRepository;
 
     @Scheduled(cron = "0 0/5 * * * *") // 5분 마다 스케줄러 실행
     public void scheduler() {
@@ -80,6 +84,37 @@ public class SchedulerService {
 
     @Scheduled(cron = "0 0/5 * * * *")
     public void checkDelivery() {
-        // TODO:
+        int cursorId = 0;
+        int maxId = questionsRepository.getLast(PageRequest.of(0, 1)).getContent().get(0);
+        log.info("maxId: " + maxId);
+
+        // Question 테이블에서 isDelivered=false인 애들 조회
+        while(cursorId <= maxId) {
+            Page<Question> questions = questionsRepository.findNotDelivered(cursorId, PageRequest.of(0, FETCH_SIZE));
+            cursorId += FETCH_SIZE;
+
+            for (Question question: questions) {
+                // 갯수만큼 Child 후보군 구함
+                List<Child> children = childrenRepository.findTargetChildren(PageRequest.of(0, SEND_SIZE));
+
+                if (children.size() == SEND_SIZE) {
+                    // delivery 추가
+                    List<Delivery> deliveries = children.stream()
+                        .map(child -> new Delivery(question, child))
+                        .collect(Collectors.toList());
+                    deliveryRepository.saveAll(deliveries);
+
+                    // question.isDelivered=true
+                    question.setDelivered(true);
+                    questionsRepository.save(question);
+
+                    // child.isAvailable=false
+                    children.forEach(child -> child.setAvailable(false));
+                    childrenRepository.saveAll(children);
+
+                    // TODO: FCM 푸시
+                }
+            }
+        }
     }
 }
