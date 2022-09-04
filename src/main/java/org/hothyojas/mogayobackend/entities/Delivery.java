@@ -3,6 +3,7 @@ package org.hothyojas.mogayobackend.entities;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,4 +48,9 @@ public class Delivery {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private Child child;
+
+    public Delivery(Question question, Child child) {
+        this.question = question;
+        this.child = child;
+    }
 }

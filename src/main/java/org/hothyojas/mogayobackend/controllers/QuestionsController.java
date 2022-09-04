@@ -1,6 +1,5 @@
 package org.hothyojas.mogayobackend.controllers;
 
-import com.fasterxml.jackson.databind.ser.Serializers.Base;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -11,16 +10,17 @@ import org.hothyojas.mogayobackend.dtos.QuestionDto;
 import org.hothyojas.mogayobackend.dtos.QuestionMetaDto;
 import org.hothyojas.mogayobackend.entities.Child;
 import org.hothyojas.mogayobackend.entities.Delivery;
+import org.hothyojas.mogayobackend.dtos.QuestionRequestDto;
 import org.hothyojas.mogayobackend.entities.Question;
 import org.hothyojas.mogayobackend.services.ChildrenService;
 import org.hothyojas.mogayobackend.services.ParentsService;
 import org.hothyojas.mogayobackend.services.QuestionsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -52,14 +52,12 @@ public class QuestionsController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public BaseResponse<Question> createQuestion(
+    public BaseResponse<QuestionMetaDto> createQuestion(
         @RequestParam int parentId,
-        @RequestBody Question question
+        @ModelAttribute QuestionRequestDto questionRequestDto
     ) {
-        Question questionObject = questionsService.createQuestion(question, parentId);
-        //        questionObject.getId()
-
-        return new BaseResponse<>(questionObject);
+        Question question = questionsService.createQuestion(questionRequestDto, parentId);
+        return new BaseResponse<>(new QuestionMetaDto(question));
     }
 
     @PatchMapping("/{questionId}/answers")

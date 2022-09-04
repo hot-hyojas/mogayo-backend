@@ -1,6 +1,5 @@
 package org.hothyojas.mogayobackend.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import javax.persistence.Column;
