@@ -2,10 +2,11 @@ package org.hothyojas.mogayobackend.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hothyojas.mogayobackend.dtos.FcmMessageRequestDto;
 import org.hothyojas.mogayobackend.entities.Child;
 import org.hothyojas.mogayobackend.entities.Delivery;
 import org.hothyojas.mogayobackend.entities.Question;
@@ -29,6 +30,7 @@ public class SchedulerService {
     private final DeliveryRepository deliveryRepository;
     private final ChildrenRepository childrenRepository;
     private final QuestionsRepository questionsRepository;
+    private final FirebaseCloudMessageService fcmService;
 
     @Scheduled(cron = "0 0/5 * * * *") // 5분 마다 스케줄러 실행
     public void scheduler() {
@@ -58,14 +60,16 @@ public class SchedulerService {
             childrenRepository.saveAll(children);
             deliveryRepository.saveAll(deliveryPage);
 
-            // TODO: 마음온도 하락했다고 FCM 보내기
-            List<String> tokens = deliveryPage.stream()
+            // 마음온도 하락했다고 FCM 보내기
+            deliveryPage.stream()
                 .map(Delivery::getChild)
-                .map(Child::getToken)
-                .filter(Objects::nonNull)
-                .collect(
-                    Collectors.toList());
-
+                .forEach(child -> {
+                    FcmMessageRequestDto requestDto = new FcmMessageRequestDto();
+                    requestDto.setViewName("getMyPage");
+                    requestDto.setTitle("마음온도가 하락했어요ㅠ");
+                    requestDto.setBody("일정 시간동안 응답을 하지 않으면 마음온도가 하락해요.");
+                    fcmService.sendMessageTo(child.getToken(), requestDto);
+                });
         }
     }
 
@@ -112,7 +116,16 @@ public class SchedulerService {
                     children.forEach(child -> child.setAvailable(false));
                     childrenRepository.saveAll(children);
 
-                    // TODO: FCM 푸시
+                    // 질문 보낸거 FCM 푸시
+                    List<String> tokens = children.stream()
+                        .map(Child::getToken)
+                        .collect(Collectors.toList());
+                    FcmMessageRequestDto requestDto = new FcmMessageRequestDto();
+                    requestDto.setViewName("getQuestionById");
+                    requestDto.setTitle("질문이 왔어요!");
+                    requestDto.setBody("도움이 필요해요ㅠ");
+                    requestDto.setQuestionId(Optional.of(question.getId()));
+                    tokens.forEach(token -> fcmService.sendMessageTo(token, requestDto));
                 }
             }
         }
