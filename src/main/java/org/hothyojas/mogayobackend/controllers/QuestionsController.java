@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hothyojas.mogayobackend.dtos.AnswerDto;
 import org.hothyojas.mogayobackend.dtos.BaseResponse;
 import org.hothyojas.mogayobackend.dtos.QuestionDto;
 import org.hothyojas.mogayobackend.dtos.QuestionMetaDto;
+import org.hothyojas.mogayobackend.entities.Child;
+import org.hothyojas.mogayobackend.entities.Delivery;
 import org.hothyojas.mogayobackend.entities.Question;
+import org.hothyojas.mogayobackend.services.ChildrenService;
 import org.hothyojas.mogayobackend.services.ParentsService;
 import org.hothyojas.mogayobackend.services.QuestionsService;
 import org.springframework.http.HttpStatus;
@@ -29,6 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class QuestionsController {
 
     private final QuestionsService questionsService;
+
+    private final ChildrenService childrenService;
 
     private final ParentsService parentsService;
 
@@ -57,7 +63,12 @@ public class QuestionsController {
     }
 
     @PatchMapping("/{questionId}/answers")
-    public Question updateQuestion(@RequestParam int childId) {
+    public Question updateQuestion(
+        @PathVariable int questionId, @RequestParam int childId, @RequestBody AnswerDto answerDto
+    ) {
+        Question question = questionsService.getQuestion(questionId);
+        Child child = childrenService.getChild(childId);
+        questionsService.patchQuestionAnswerByChildId(question, child, answerDto);
         return null;
     }
 }
